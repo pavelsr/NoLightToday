@@ -1,0 +1,5 @@
+services:
+  bot:
+    network_mode: bridge
+    extra_hosts:
+      - "host.docker.internal=host-gateway"

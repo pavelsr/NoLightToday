@@ -22,7 +22,12 @@ _load_env_file(BASE_DIR / ".env")
 
 
 # --- Секреты ---
-BOT_TOKEN = os.getenv("BOT_TOKEN", "ВСТАВЬТЕ_ТОКЕН_ОТ_BOTFATHER")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
+if not BOT_TOKEN or "ваш_токен" in BOT_TOKEN or BOT_TOKEN == "ВСТАВЬТЕ_ТОКЕН_ОТ_BOTFATHER":
+    raise SystemExit(
+        "BOT_TOKEN не задан или это пример из .env.example. "
+        "Укажите токен от @BotFather в файле .env"
+    )
 
 ADMIN_IDS: set[int] = {
     int(x) for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip()
@@ -38,15 +43,13 @@ BASE_URL = "https://rosseti-lenenergo.ru/clients/planned_work/"
 MAX_PAGES = 15
 CHECK_INTERVAL = int(os.getenv("CHECK_INTERVAL", "3600"))
 
-# --- Список НП для меню подписок ---
+# --- Список НП для меню подписок (через запятую в .env) ---
+_DEFAULT_LOCALITIES = "Санкт-Петербург,Ломоносов,Петровское,СНТ Фауна"
 LOCALITIES = [
-    "Санкт-Петербург",
-    "Ломоносов",
-    "Петровское",
-    "СНТ Фауна",
+    x.strip()
+    for x in os.getenv("LOCALITIES", _DEFAULT_LOCALITIES).split(",")
+    if x.strip()
 ]
-
-BOT_USERNAME = "NoLightToday_bot"   # без @, для deep-link
 
 # Прокси для Telegram (на RU VPS провайдер блокирует по SNI).
 # Формат: http://user:pass@host:port или socks5://user:pass@host:port
