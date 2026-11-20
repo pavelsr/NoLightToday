@@ -1,0 +1,64 @@
+# Version control
+.git/
+.gitignore
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Documentation
+*.md
+LICENSE
+docs/
+
+# Docker files (avoid recursive inclusion)
+Dockerfile*
+compose.yaml
+docker-compose*.yml
+docker-compose*.yaml
+.dockerignore
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+xray.json
+config.local.py
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Tests and local scripts (not needed at runtime)
+tests/
+scripts/
+
+# Runtime data / logs (mounted or created in container)
+data/*.db
+data/*.db-*
+data/*.sqlite*
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
