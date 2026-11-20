@@ -22,7 +22,12 @@ _load_env_file(BASE_DIR / ".env")
 
 
 # --- Секреты ---
-BOT_TOKEN = os.getenv("BOT_TOKEN", "ВСТАВЬТЕ_ТОКЕН_ОТ_BOTFATHER")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
+if not BOT_TOKEN or BOT_TOKEN.startswith("123456789:") or "ваш_токен" in BOT_TOKEN:
+    raise SystemExit(
+        "BOT_TOKEN не задан или это пример из .env.example. "
+        "Укажите токен от @BotFather в файле .env"
+    )
 
 ADMIN_IDS: set[int] = {
     int(x) for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip()
