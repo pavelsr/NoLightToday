@@ -38,12 +38,12 @@ BASE_URL = "https://rosseti-lenenergo.ru/clients/planned_work/"
 MAX_PAGES = 15
 CHECK_INTERVAL = int(os.getenv("CHECK_INTERVAL", "3600"))
 
-# --- Список НП для меню подписок ---
+# --- Список НП для меню подписок (через запятую в .env) ---
+_DEFAULT_LOCALITIES = "Санкт-Петербург,Ломоносов,Петровское,СНТ Фауна"
 LOCALITIES = [
-    "Санкт-Петербург",
-    "Ломоносов",
-    "Петровское",
-    "СНТ Фауна",
+    x.strip()
+    for x in os.getenv("LOCALITIES", _DEFAULT_LOCALITIES).split(",")
+    if x.strip()
 ]
 
 BOT_USERNAME = "NoLightToday_bot"   # без @, для deep-link
