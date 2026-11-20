@@ -21,14 +21,15 @@ FROM python:3.12-slim-bookworm AS runtime
 
 WORKDIR /app
 
-RUN groupadd --system --gid 1001 appgroup \
-    && useradd --system --uid 1001 --gid appgroup --home-dir /app --no-create-home appuser \
+# UID/GID 1000 matches the typical host user so bind-mounted ./data is writable.
+RUN groupadd --system --gid 1000 appgroup \
+    && useradd --system --uid 1000 --gid appgroup --home-dir /app --no-create-home appuser \
     && mkdir -p /app/data /app/logs \
     && chown appuser:appgroup /app/data /app/logs
 
-COPY --from=build --link --chown=1001:1001 /opt/venv /opt/venv
+COPY --from=build --link --chown=1000:1000 /opt/venv /opt/venv
 # Source is a separate layer: code edits without new deps skip the install stage.
-COPY --link --chown=1001:1001 src ./src
+COPY --link --chown=1000:1000 src ./src
 
 ENV PATH="/opt/venv/bin:$PATH" \
     PYTHONPATH=/app/src \
