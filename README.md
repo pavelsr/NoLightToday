@@ -556,7 +556,7 @@ del data\bot_data.db         # Windows
 
 ```
 [INFO] nolighttoday: Telegram через прокси: host:port
-[INFO] aiogram.dispatcher: Run polling for bot @NoLightToday_bot
+[INFO] aiogram.dispatcher: Run polling for bot @YourBotUsername
 ```
 
 Без прокси (например, на зарубежном VPS) переменную можно не задавать —

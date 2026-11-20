@@ -46,8 +46,6 @@ LOCALITIES = [
     "СНТ Фауна",
 ]
 
-BOT_USERNAME = "NoLightToday_bot"   # без @, для deep-link
-
 # Прокси для Telegram (на RU VPS провайдер блокирует по SNI).
 # Формат: http://user:pass@host:port или socks5://user:pass@host:port
 # Пусто = без прокси (для серверов вне РФ).

@@ -23,7 +23,6 @@ import db
 from config import (
     ADMIN_IDS,
     BOT_TOKEN,
-    BOT_USERNAME,
     CHECK_INTERVAL,
     LOCALITIES,
     TELEGRAM_PROXY,
@@ -361,12 +360,20 @@ async def on_bot_added_to_chat(update: ChatMemberUpdated):
         await db.upsert_chat(chat.id, chat.title or "Без названия")
         log.info("Бот добавлен в %s (%s, %s)", chat.title, chat.id, kind)
 
-        deep_link = f"https://t.me/{BOT_USERNAME}?start=g_{chat.id}"
+        me = await bot.me()
+        deep_link = (
+            f"https://t.me/{me.username}?start=g_{chat.id}" if me.username else None
+        )
+        if deep_link is None:
+            log.error("У бота нет username — deep-link «Настроить» недоступен")
 
         adder_id = update.from_user.id if update.from_user else None
         if adder_id is not None:
-            b = InlineKeyboardBuilder()
-            b.button(text="⚙️ Настроить", url=deep_link)
+            markup = None
+            if deep_link:
+                b = InlineKeyboardBuilder()
+                b.button(text="⚙️ Настроить", url=deep_link)
+                markup = b.as_markup()
             label = "канал" if kind == "channel" else "группу"
             try:
                 await bot.send_message(
@@ -374,7 +381,7 @@ async def on_bot_added_to_chat(update: ChatMemberUpdated):
                     f"🕯 <b>NoLightToday</b> добавлен в {label} "
                     f"<b>{chat.title or 'без названия'}</b>.\n\n"
                     f"Настройки — здесь, в личке.",
-                    reply_markup=b.as_markup(),
+                    reply_markup=markup,
                     parse_mode="HTML",
                 )
             except Exception as e:
