@@ -1,0 +1,10 @@
+services:
+  bot:
+    build: .
+    container_name: nolighttoday
+    env_file:
+      - .env
+    volumes:
+      # SQLite DB persists on the host
+      - ./data:/app/data
+    restart: unless-stopped
